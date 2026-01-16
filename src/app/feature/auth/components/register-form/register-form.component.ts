@@ -48,7 +48,7 @@ export class RegisterFormComponent {
   errorMessage = '';
   successMessage = '';
   registerForm!: FormGroup;
-  count = 5;
+  count = signal<number>(5);
   isLoading = signal<boolean>(false);
   constructor() {
     this.signUp();
@@ -95,13 +95,13 @@ export class RegisterFormComponent {
         interval(1000)
           .pipe(take(5))
           .subscribe(() => {
-            --this.count;
-            if (this.count == 0) {
+            this.count.set(this.count() - 1);
+            if (this.count() == 0) {
               this.router.navigateByUrl('/login');
             }
           });
         this.successMessage = `Account created successfully
-           you will be redirect to login in${--this.count}`;
+           you will be redirect to login in`;
       },
       error: (err: HttpErrorResponse) => {
         this.isLoading.set(false);

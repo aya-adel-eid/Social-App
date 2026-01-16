@@ -21,7 +21,7 @@ export class LoginFormComponent {
   isLoading = signal<boolean>(false);
   successMessage = '';
   errorMessage = '';
-  count = 5;
+  count = signal<number>(5);
   signInForm!: FormGroup;
   constructor() {
     this.sigInFun();
@@ -47,15 +47,15 @@ export class LoginFormComponent {
           interval(1000)
             .pipe(take(5))
             .subscribe(() => {
-              --this.count;
-              if (this.count == 0) {
+              this.count.set(this.count() - 1);
+              if (this.count() == 0) {
                 this.router.navigateByUrl('/timeline');
               }
             });
           // verify token
           this.authServices.decodeToken(resp.token);
           localStorage.setItem(STORED_KEYS.token, resp.token);
-          this.successMessage = `${resp.message}${this.count}`;
+          this.successMessage = `${resp.message}`;
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading.set(false);
