@@ -10,11 +10,10 @@ export const routes: Routes = [
     canActivate: [loggedGuard],
     loadComponent: () =>
       import('./core/layouts/auth-layout/auth-layout.component').then((c) => c.AuthLayoutComponent),
-    // component: AuthLayoutComponent,
+
     loadChildren: () => import('./feature/auth/auth.routes').then((c) => c.AUTH_ROUtES),
-    // children: AUTH_ROUtES,
   },
-  //user
+
   {
     path: '',
     loadComponent: () =>
@@ -27,14 +26,14 @@ export const routes: Routes = [
           import('./feature/timeline/timline.routes').then((c) => c.TIMeLINE_ROUTEs),
         title: 'TimeLine',
       },
-      // children: TIMeLINE_ROUTEs },
+
       {
         path: 'userProfile',
         loadChildren: () =>
           import('./feature/user-profile/userprofile.routes').then((c) => c.USERPROFIlE_ROUTES),
         title: 'UserProfile',
       },
-      // children: USERPROFIlE_ROUTES },
+
       {
         path: 'changePassword',
         loadComponent: () =>
@@ -42,11 +41,10 @@ export const routes: Routes = [
             (c) => c.ChangePasswordComponent
           ),
         title: 'Change Password',
-        // component: ChangePasswordComponent,
       },
     ],
   },
-  //not-found
+
   {
     path: 'notFound',
     loadComponent: () =>

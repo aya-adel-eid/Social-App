@@ -2,7 +2,7 @@
   <div class="mb-4">
     <app-user-info [userData]="userInfo()!"></app-user-info>
   </div>
-  @if (!postsUser()||postsUser().length===0) {
+  @if (!postsUser()) {
   <app-skelton-loading-posts></app-skelton-loading-posts>
   }
   @else {
