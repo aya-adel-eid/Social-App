@@ -1,0 +1,22 @@
+<div class="lg:w-3/5 sm:w-[90%] mx-auto px-4">
+  <div class="mb-4">
+    <app-user-info [userData]="userInfo()!"></app-user-info>
+  </div>
+  @if (!postsUser()||postsUser().length===0) {
+  <app-skelton-loading-posts></app-skelton-loading-posts>
+  }
+  @else {
+  @if (postsUser().length===0) {
+  <div class="text-center text-2xl font-bold text-gray-400 py-8">
+    No posts have been published yet.
+  </div>
+  }
+  @else {
+
+  @for (post of postsUser(); track post._id) {
+  <app-card-post [post]="post"></app-card-post>
+  }
+  }
+
+  }
+</div>

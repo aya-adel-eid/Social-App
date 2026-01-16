@@ -1,0 +1,64 @@
+<div class="rounded-2xl  bg-white my-3 p-4 lg:p-6  sm:mx-2 dark:bg-gray-800
+dark:border-gray-700 dark:text-gray-100">
+  <header>
+    <div class="flex justify-between w-full items-center">
+      <!-- user -->
+      <div class="flex gap-4 items-center">
+        @if (post().user.photo) {
+
+        <img [src]="post().user.photo" alt="userPhoto" class="w-15 h-15 rounded-full">
+        }
+        @else{
+        <img src="/images/profile.png" class="w-15" alt="userProfile">
+        }
+        <div>
+          <h2 class="text-lg font-bold">{{post().user.name}}</h2>
+          <time datetime="12-12-2025">{{post().createdAt|date:'medium'}}</time>
+        </div>
+      </div>
+      <!-- menu -->
+      <div>
+        <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editPosts(post())">
+            <mat-icon>edit</mat-icon>
+            <span>Update</span>
+          </button>
+          <button mat-menu-item (click)="deletePost(post()._id)">
+            <mat-icon>delete</mat-icon>
+            <span>Remove</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </header>
+  <!-- showPosts -->
+  <div class="">
+    <p class="my-4 px-3">{{post().body}}</p>
+    @if (post().image) {
+
+    <img [src]="post().image" alt="photo-post" class="w-full  my-3 rounded-2xl">
+    }
+  </div>
+  <!--Show comments -->
+  @if (post().comments.length>1) {
+
+  <button (click)="ShowAllComments.set(!ShowAllComments())"
+    class="text-blue-600 font-semibold mb-3  cursor-pointer">{{ShowAllComments()?'Show Less Comments':`Show
+    MoreComments`}}</button>
+  }
+  @if(post().comments.length){
+
+  <app-comment-card [comment]="post().comments" [showAllComments]="ShowAllComments()" (commentObj)="commentObj=$event"
+    (comments)="post().comments=$event"></app-comment-card>
+  }
+
+
+  <!-- add comment -->
+  <div>
+    <app-add-comment [postID]="post()._id" (comments)="post().comments=$event"
+      [editingComment]="commentObj"></app-add-comment>
+  </div>
+</div>

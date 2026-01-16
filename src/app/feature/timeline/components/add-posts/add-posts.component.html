@@ -1,0 +1,63 @@
+<!-- <div class="bg-white my-3 p-4 lg:p-6 rounded-2xl sm:mx-2">
+  <input type="text" (click)="openDialog()"
+    class="w-full p-4 border-2 border-gray-300  rounded-full lg:placeholder:text-xl sm:placeholder:text-sm"
+    placeholder="What's your in mind today..">
+</div> -->
+<!-- create post -->
+
+
+
+<mat-card class="w-full h-full bg-white dark:bg-gray-600!">
+  <mat-card-header class="shadow dark:text-white">
+    <h2 class="px-3 py-4  uppercase font-medium lg:text-2xl sm:text-xl">Add New Post</h2>
+  </mat-card-header>
+  <form action="" [formGroup]="addPostForm">
+    <mat-card-content class="">
+      <div class="p-3 my-5 ">
+        <div>
+
+
+          <textarea id="message" rows="2" formControlName="body"
+            class="bg-neutral-secondary-medium border  dark:bg-gray-600! border-default-medium text-heading text-sm rounded-base  focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body"
+            placeholder="Write your thoughts here..."></textarea>
+
+        </div>
+        <div class="mt-2">
+
+          <div class="flex items-center justify-center w-full">
+            <label for="dropzone-file"
+              class="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border-4 border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
+              <div class="flex flex-col items-center justify-center text-body pt-5 pb-6">
+                <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />
+                </svg>
+                <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              </div>
+              <input id="dropzone-file" type="file" class="hidden" (change)="imageFile($event)" />
+            </label>
+          </div>
+
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer class="">
+      <div class="px-8 space-x-2.5 py-5 ">
+        @if(!postUpdate()){
+
+        <button matButton="filled" (click)="sendPost()">Add Post</button>
+        }
+        @else {
+
+        <button matButton="filled" (click)="updatePost()">Update</button>
+        }
+
+
+
+
+      </div>
+    </mat-card-footer>
+  </form>
+</mat-card>

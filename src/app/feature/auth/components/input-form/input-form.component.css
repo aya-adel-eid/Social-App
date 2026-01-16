@@ -1,0 +1,6 @@
+/* ::ng-deep input:focus {
+  outline: none !important;
+} */
+/* ::ng-deep .error-field .mat-mdc-text-field-wrapper {
+  border: 1px solid #ef4444;
+} */

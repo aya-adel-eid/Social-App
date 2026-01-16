@@ -1,0 +1,27 @@
+<div class="lg:w-3/5 sm:w-[90%] mx-auto px-4 ">
+  <div class="bg-white my-3 p-4 lg:p-6 rounded-2xl sm:mx-2 dark:bg-gray-600!">
+    <input type="text" (click)="openDialog()" class="w-full p-4 border-2 border-gray-300   dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100
+          dark:placeholder-gray-400 rounded-full lg:placeholder:text-xl sm:placeholder:text-sm"
+      placeholder="What's your in mind today..">
+  </div>
+
+  @if(!allPosts()||allPosts().length===0){
+  <app-skelton-loading-posts></app-skelton-loading-posts>
+  }
+  @else {
+
+  @for (post of allPosts(); track post._id) {
+
+  <app-card-post [post]="post"></app-card-post>
+  }
+
+  }
+  @if(postLoading()){
+  <div class="flex justify-center my-6">
+    <mat-progress-spinner [diameter]="40" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+  }
+  <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"></div>
+</div>

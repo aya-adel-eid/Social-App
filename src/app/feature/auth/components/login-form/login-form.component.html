@@ -1,0 +1,44 @@
+<form action="" [formGroup]="signInForm" (ngSubmit)="sendData()">
+
+
+  <mat-card class=" p-8 bg-gray-50  dark:text-white dark:bg-gray-800!">
+
+
+    <mat-card-title>
+      <h2 class="text-center py-8 text-indigo lg:text-3xl lg:font-bold sm:font-semibold sm:xl">Sign Now</h2>
+    </mat-card-title>
+    <mat-card-content>
+      <app-input-form [type]="'email'" formControlName="email" [control]="signInForm.get('email')"
+        [placeholder]="'Enter your email'" [label]="'userEmail'" [idInput]="'email'"></app-input-form>
+      <app-input-form [type]="'password'" formControlName="password" [control]="signInForm.get('password')"
+        [placeholder]="'Enter your password'" [label]="'UserPassword'" [idInput]="'password'"></app-input-form>
+      @if (successMessage) {
+      <div class="p-4 mb-4 text-sm text-fg-success-strong rounded-base bg-success-soft my-4" role="alert">
+        <span class="font-medium">{{successMessage }}</span>.
+      </div>
+
+      }
+      @if (errorMessage) {
+      <div class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+        <span class="font-medium sm:text-xl lg:text-2xl">{{errorMessage}}!</span> Change a few things up and try
+        submitting again.
+      </div>
+      }
+      <div>
+        <button matButton="filled" class="w-full" [disabled]="isLoading()">login
+          @if (isLoading()) {
+
+          <span><i class=" fas fa-spin fa-spinner"></i></span>
+          }
+        </button>
+      </div>
+      <div class="flex justify-center p-6 items-center">
+        <span>Don't Have an account? </span>
+        <a routerLink="/register" class="text-indigo underline font-bold px-2 sm:text-xl lg:text-2xl cursor-pointer">
+          SignUp Now</a>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+
+</form>

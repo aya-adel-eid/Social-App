@@ -1,0 +1,106 @@
+@if(userData()){
+
+<div class="content mb-5 mx-2 ">
+
+  <div class="w-full  mx-auto bg-white rounded-3xl shadow-xl overflow-hidden mt-4 dark:text-gray-100 dark:bg-[#0f172a]">
+
+    <!-- Top Section -->
+    <div class="bg-gradient-to-r from-blue-500 to-blue-700 h-32 relative dark:from-slate-800 dark:to-slate-900">
+      <div
+        class="absolute -bottom-10 left-1/2 -translate-x-1/2  rounded-full flex items-center justify-center shadow-lg">
+
+
+        <div class="relative border-4 border-white rounded-full dark:border-slate-700">
+          @if (isLoading()) {
+          <div class="w-28 h-28 rounded-full flex justify-center items-center bg-white">
+
+            <span class="loader"></span>
+          </div>
+          }
+          @else {
+
+          <img [src]="userData().photo" alt="user photo" class="w-28 h-28 rounded-full">
+
+          <div class=" absolute -top-1 -end-1 z-50">
+
+            <button (click)="openDialog()"
+              class="flex block cursor-pointer flex-col items-center bg-white justify-center text-body p-3 rounded-full ">
+              <i class="fa-solid fa-camera fa-x"></i>
+            </button>
+
+          </div>
+          }
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="pt-16 pb-8 px-8 text-center">
+      <h2 class="text-2xl font-semibold capitalize">
+        {{ userData().name }}
+      </h2>
+
+      <span class="inline-block mt-2 px-4 py-1 rounded-full text-sm text-indigo">
+        {{userData().email }}
+      </span>
+
+      <!-- Divider -->
+      <div class="my-6 border-t"></div>
+
+      <!-- Info -->
+      <div class="space-y-4 text-sm max-w-md mx-auto">
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400 font-bold">Email</span>
+          <span class="font-medium">{{ userData().email }}</span>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400 font-bold">dateOfBirth</span>
+          <span class="font-medium">{{ userData().dateOfBirth }}</span>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="text-gray-400 font-bold">Gender</span>
+          <span class="font-semibold ">
+            {{ userData().gender }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+}
+<ng-template #ChangeImage>
+
+  <mat-card class="w-full h-full bg-white ">
+    <mat-card-header class="shadow ">
+      <h2 class="px-3 py-4  uppercase font-medium lg:text-2xl sm:text-xl">ChangeImage</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="flex items-center justify-center w-full">
+        <label for="dropzone-file"
+          class="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border-4 border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
+          <div class="flex flex-col items-center justify-center text-body pt-5 pb-6">
+            <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />
+            </svg>
+            <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+          </div>
+          <input id="dropzone-file" type="file" class="hidden" (change)="selectedPhoto($event)" />
+        </label>
+      </div>
+    </mat-card-content>
+    <mat-card-footer class="">
+      <div class="px-8 space-x-2.5  ">
+
+
+        <button matButton="filled" (click)="uploadPhoto()">Save Image</button>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</ng-template>

@@ -1,0 +1,74 @@
+<form action="" [formGroup]="registerForm" (ngSubmit)="sendData()" class="mb-6">
+  <mat-card class="p-8 bg-gray-50  dark:text-white dark:bg-gray-800! ">
+    <mat-card-title class="">
+      <h2 class="text-center py-8 text-indigo lg:text-3xl lg:font-bold sm:font-semibold sm:xl">Register Now</h2>
+    </mat-card-title>
+    <mat-card-content>
+      <!-- name -->
+      <app-input-form [control]="registerForm.get('name')" [type]="'text'" [idInput]="'name'" [label]="'UserName'"
+        [placeholder]="'Please Enter Your Name'" formControlName="name"></app-input-form>
+      <!-- email -->
+      <app-input-form [control]="registerForm.get('email')" [type]="'email'" [idInput]="'email'" [label]="'UserEmail'"
+        [placeholder]="'Please Enter Your email'" formControlName="email"></app-input-form>
+      <!-- password -->
+      <app-input-form [control]="registerForm.get('password')" [type]="'password'" [idInput]="'password'"
+        [label]="'UserPassword'" [placeholder]="'Please Enter Your password'"
+        formControlName="password"></app-input-form>
+      <!-- rePassword -->
+      <app-input-form [control]="registerForm.get('rePassword')" [type]="'password'" [idInput]="'rePassword'"
+        [label]="'UserPassword'" [placeholder]="'Please Enter Your Password Again'" formControlName="rePassword"
+        [group]="registerForm"></app-input-form>
+      <!--select gender -->
+      <mat-form-field class="w-full mb-4">
+        <mat-label class="text-xl text-indigo">SelectGender:</mat-label>
+        <select matNativeControl formControlName="gender" class=" focus:outline-none focus:ring-0 !px-4">
+          <option value="male">male</option>
+          <option value="female">female</option>
+        </select>
+        @if (registerForm.get('gender')?.touched&&registerForm.get('gender')?.hasError('required')) {
+        <mat-error class="text-xl">Gender is required</mat-error>
+        }
+      </mat-form-field>
+      <!-- det DateBirth -->
+      <mat-form-field class="w-full">
+        <mat-label class="text-xl text-indigo">Choose a dateOfBirth</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (registerForm.get('dateOfBirth')?.touched&&registerForm.get('dateOfBirth')?.hasError('required')) {
+        <mat-error>Gender is required</mat-error>
+        }
+      </mat-form-field>
+      @if (successMessage) {
+      <div class="p-4 mb-4 text-sm text-fg-success-strong rounded-base bg-success-soft my-4" role="alert">
+        <span class="font-medium">{{successMessage }}!</span>.
+      </div>
+
+      }
+      @if (errorMessage) {
+      <div class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+        <span class="font-medium sm:text-xl lg:text-2xl">{{errorMessage}}!</span> Change a few things up and try
+        submitting again.
+      </div>
+      }
+      <div class="my-3">
+        <button matButton="filled" class="w-full" [disabled]="isLoading()">SignUp
+          @if (isLoading()) {
+
+          <i class="fas fa-spinner fa-spin"></i>
+          }
+        </button>
+      </div>
+
+      <div class="flex justify-center p-6 items-center">
+        <span class="sm:text-sm lg:text-xl">already have an account? </span>
+        <a routerLink="/login" class="text-indigo underline font-bold px-2 sm:text-xl lg:text-2xl"> LogIn Now</a>
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+</form>

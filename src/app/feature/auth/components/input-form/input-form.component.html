@@ -1,0 +1,46 @@
+<div class="mb-0 dark:text-white">
+  <mat-form-field class="w-full ">
+    <mat-label class="text-[18px] text-indigo-700">{{label()}}</mat-label>
+    <input matInput [placeholder]="placeholder()" [type]="type()" [id]="idInput()" (blur)="onTouched()"
+      (input)="value=$event.target.value;onChange(value)" required
+      class="focus:outline-none focus:ring-0 bg-transparent " />
+  </mat-form-field>
+  @if(control()?.touched&&control()?.errors){
+  <div
+    class="flex mt-0 p-4 mb-4 text-sm text-fg-danger-strong rounded-base dark:text-white bg-danger-soft border border-danger-subtle"
+    role="alert">
+    <svg class="w-4 h-4 me-2 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+      fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+    </svg>
+    <span class="sr-only">Danger</span>
+    <div>
+      <span class="font-medium">Ensure that these requirements are met:</span>
+      <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+        @if (control()?.getError('required')) {
+        <li>This field is required.</li>
+        }
+        @if (control()?.getError('minlength')) {
+        <li>Minimum length is 3 characters.</li>
+        }
+        @if (control()?.getError('maxlength')) {
+        <li> Maximum length is 20 characters.</li>
+        }
+        @if (control()?.getError('email')) {
+        <li>Please enter a valid email address.</li>
+        }
+
+        @if(control()?.getError('pattern')&&idInput()==='password'){
+        <li>Password must be 8–10 characters long, include at least one uppercase letter,
+          one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &)</li>
+        }
+        @if(group()?.errors){
+        <li> Password Confirmation incorrect</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  }
+</div>
