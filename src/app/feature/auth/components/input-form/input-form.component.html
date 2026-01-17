@@ -1,9 +1,22 @@
-<div class="mb-0 dark:text-white">
-  <mat-form-field class="w-full ">
+<div class="mb-0 dark:text-white ">
+  <mat-form-field class="w-full relative ">
     <mat-label class="text-[18px] text-indigo-700">{{label()}}</mat-label>
-    <input matInput [placeholder]="placeholder()" [type]="type()" [id]="idInput()" (blur)="onTouched()"
+    <input matInput [placeholder]="placeholder()" [type]="actualType()" [id]="idInput()" (blur)="onTouched()"
       (input)="value=$event.target.value;onChange(value)" required
       class="focus:outline-none focus:ring-0 bg-transparent " />
+    <span (click)="togglePasswordVisibility()" class="absolute top-1/2 end-4 -translate-y-1/2 cursor-pointer"
+      type="button">
+      @if(idInput()=='password'||idInput()=="rePassword"){
+
+      @if (showPassword()) {
+      <i class="fa fa-eye"></i>
+      }
+      @else {
+      <i class="fa fa-eye-slash"></i>
+
+      }
+      }
+    </span>
   </mat-form-field>
   @if(control()?.touched&&control()?.errors){
   <div

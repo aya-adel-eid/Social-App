@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, signal } from '@angular/core';
+import { Component, computed, forwardRef, input, signal } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -45,14 +45,18 @@ export class InputFormComponent implements ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
-  flag = signal<boolean>(false);
-  toggle() {
-    if (
-      this.idInput() == 'password' ||
-      this.idInput() == 'rePassword' ||
-      this.idInput() == 'newPassword'
-    ) {
-      this.flag.set(!this.flag());
+  showPassword = signal<boolean>(false);
+
+  actualType = computed(() => {
+    if (this.type() === 'password') {
+      return this.showPassword() ? 'text' : 'password';
     }
+
+    return this.type();
+  });
+
+  togglePasswordVisibility(): void {
+    this.showPassword.update((v) => !v);
   }
+  isPasswordField = computed(() => this.type() === 'password');
 }
