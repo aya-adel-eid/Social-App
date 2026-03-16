@@ -54,7 +54,9 @@ export class LoginFormComponent {
             });
           // verify token
           this.authServices.decodeToken(resp.token);
-          localStorage.setItem(STORED_KEYS.token, resp.token);
+          console.log(resp);
+
+          localStorage.setItem(STORED_KEYS.token, `Bearer ${resp.data.token}`);
           this.successMessage = `${resp.message}`;
         },
         error: (err: HttpErrorResponse) => {

@@ -56,7 +56,7 @@ export class UserProfilePageComponent implements OnInit {
   postsUser = this.timeLineServices.postUser;
   ngOnInit(): void {
     if (isPlatformBrowser(this.platId)) {
-      this.getUserInfo();
+      // this.getUserInfo();
       this.getPostsUser();
     }
   }

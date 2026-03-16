@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { loggedGuard } from './core/guards/logged-guard';
 import { authGuard } from './core/guards/auth-guard';
 import { title } from 'process';
+import { userInfo } from 'os';
+import { postsResolver } from './core/reslover/posts-resolver';
 
 export const routes: Routes = [
   //auth
@@ -31,6 +33,7 @@ export const routes: Routes = [
         path: 'userProfile',
         loadChildren: () =>
           import('./feature/user-profile/userprofile.routes').then((c) => c.USERPROFIlE_ROUTES),
+        // resolve: { userInfo: postsResolver },
         title: 'UserProfile',
       },
 
@@ -38,7 +41,7 @@ export const routes: Routes = [
         path: 'changePassword',
         loadComponent: () =>
           import('./feature/auth/pages/change-password/change-password.component').then(
-            (c) => c.ChangePasswordComponent
+            (c) => c.ChangePasswordComponent,
           ),
         title: 'Change Password',
       },
@@ -49,7 +52,7 @@ export const routes: Routes = [
     path: 'notFound',
     loadComponent: () =>
       import('./feature/static-pages/not-found/not-found.component').then(
-        (c) => c.NotFoundComponent
+        (c) => c.NotFoundComponent,
       ),
     title: 'Not Found',
   },

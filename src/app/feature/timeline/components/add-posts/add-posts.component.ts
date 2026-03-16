@@ -15,7 +15,7 @@ import { MatAnchor } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { error, log } from 'console';
 import { TimelineService } from '../../services/timeline.service';
-import { Posts } from '../../interfaces/IAllPosts';
+
 import { STORED_KEYS } from '../../../../core/constance/Stored_Keys';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -114,9 +114,11 @@ export class AddPostsComponent {
         this.closeDialog();
       },
       error: (error: HttpErrorResponse) => {
-        this.toast.error(error.error.error, '', {
+        this.toast.error(error.error.message, '', {
           progressBar: true,
         });
+        this.restForm();
+        this.closeDialog();
       },
     });
   }

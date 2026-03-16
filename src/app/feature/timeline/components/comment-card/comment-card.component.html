@@ -1,6 +1,6 @@
 <div class="max-h-75 overflow-y-auto px-4 ">
   @if (showAllComments()) {
-  @for (comment of comment(); track comment._id) {
+  @for (comment of comment().comments; track comment._id) {
   <mat-card class="px-4 py-2 shadow-none! my-3 dark:bg-gray-700! dark:border-gray-600!">
     <mat-card-header>
       <div class="flex justify-between w-full items-center ">
@@ -38,29 +38,29 @@
     <mat-card-header>
       <div class="flex justify-between w-full items-center ">
         <div class="flex items-center gap-3 my-2">
-          @if (comment()[0].commentCreator.photo) {
+          @if (topComment()?.commentCreator?.photo) {
 
-          <img [src]="comment()[0].commentCreator.photo" alt="userProfile" class="w-12 rounded-full">
+          <img [src]="topComment()?.commentCreator?.photo" alt="userProfile" class="w-12 rounded-full">
           }
 
           @else{
           <img src="/images/profile.png" class="w-15" alt="userProfile">
 
           }
-          <h2 class="text-sm font-semibold">{{comment()[0].commentCreator.name}}</h2>
+          <h2 class="text-sm font-semibold">{{topComment()?.commentCreator?.name}}</h2>
           <time datetime="22/5/2025"
-            class="text-gray-400 text-sm font-bold">{{comment()[0].createdAt|date:'medium'}}</time>
+            class="text-gray-400 text-sm font-bold">{{topComment()?.createdAt|date:'medium'}}</time>
         </div>
         <div>
           <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="updateComment(comment()[0])">
+            <button mat-menu-item (click)="updateComment(topComment()!)">
               <mat-icon>edit</mat-icon>
               <span>Update</span>
             </button>
-            <button mat-menu-item (click)="deleteComment(comment()[0]._id,comment()[0].post)">
+            <button mat-menu-item (click)="deleteComment(topComment()?._id!,topComment()?.post!)">
               <mat-icon>delete</mat-icon>
               <span>Remove</span>
             </button>
@@ -69,7 +69,7 @@
       </div>
     </mat-card-header>
     <div class="py-2 px-6">
-      <p class="text-gray-500">{{comment()[0].content}}</p>
+      <p class="text-gray-500">{{topComment()?.content}}</p>
     </div>
   </mat-card>
   }

@@ -1,5 +1,5 @@
 import { Component, inject, input, signal, TemplateRef, viewChild } from '@angular/core';
-import { User } from '../../../auth/interfaces/IUserInfo';
+
 import { AuthService } from '../../../auth/services/auth.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -9,9 +9,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatAnchor } from '@angular/material/button';
 import { TimelineService } from '../../../timeline/services/timeline.service';
 import { STORED_KEYS } from '../../../../core/constance/Stored_Keys';
+import { UserData } from '../../../auth/interfaces/UserProfile';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-user-info',
-  imports: [ReactiveFormsModule, MatCardFooter, MatCardContent, MatCardHeader, MatCard, MatAnchor],
+  imports: [
+    ReactiveFormsModule,
+    MatCardFooter,
+    MatCardContent,
+    MatCardHeader,
+    MatCard,
+    MatAnchor,
+    DatePipe,
+  ],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css',
 })
@@ -19,7 +29,7 @@ export class UserInfoComponent {
   private readonly authServices = inject(AuthService);
   private readonly timeLineServices = inject(TimelineService);
   private readonly dialog = inject(MatDialog);
-  userData = input.required<User>();
+  userData = input.required<UserData>();
   photo = new FormControl(null, [Validators.required]);
   isLoading = signal<boolean>(false);
   changeImage = viewChild<TemplateRef<any>>('ChangeImage');

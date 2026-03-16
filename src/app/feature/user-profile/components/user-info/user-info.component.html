@@ -5,7 +5,7 @@
   <div class="w-full  mx-auto bg-white rounded-3xl shadow-xl overflow-hidden mt-4 dark:text-gray-100 dark:bg-[#0f172a]">
 
     <!-- Top Section -->
-    <div class="bg-gradient-to-r from-blue-500 to-blue-700 h-32 relative dark:from-slate-800 dark:to-slate-900">
+    <div class="bg-linear-to-r from-blue-500 to-blue-700 h-32 relative dark:from-slate-800 dark:to-slate-900">
       <div
         class="absolute -bottom-10 left-1/2 -translate-x-1/2  rounded-full flex items-center justify-center shadow-lg">
 
@@ -19,7 +19,7 @@
           }
           @else {
 
-          <img [src]="userData().photo" alt="user photo" class="w-28 h-28 rounded-full">
+          <img [src]="userData().user.photo" alt="user photo" class="w-28 h-28 rounded-full">
 
           <div class=" absolute -top-1 -end-1 z-50">
 
@@ -38,11 +38,11 @@
     <!-- Content -->
     <div class="pt-16 pb-8 px-8 text-center">
       <h2 class="text-2xl font-semibold capitalize">
-        {{ userData().name }}
+        {{ userData().user.name }}
       </h2>
 
       <span class="inline-block mt-2 px-4 py-1 rounded-full text-sm text-indigo">
-        {{userData().email }}
+        {{userData().user.email }}
       </span>
 
       <!-- Divider -->
@@ -52,18 +52,18 @@
       <div class="space-y-4 text-sm max-w-md mx-auto">
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">Email</span>
-          <span class="font-medium">{{ userData().email }}</span>
+          <span class="font-medium">{{ userData().user.email }}</span>
         </div>
 
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">dateOfBirth</span>
-          <span class="font-medium">{{ userData().dateOfBirth }}</span>
+          <span class="font-medium">{{ userData().user.dateOfBirth |date:'medium'}}</span>
         </div>
 
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">Gender</span>
           <span class="font-semibold ">
-            {{ userData().gender }}
+            {{ userData().user.gender }}
           </span>
         </div>
       </div>

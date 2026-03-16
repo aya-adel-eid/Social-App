@@ -3,7 +3,7 @@ import { AddPostsComponent } from '../../components/add-posts/add-posts.componen
 import { CardPostComponent } from '../../components/card-post/card-post.component';
 import { TimelineService } from '../../services/timeline.service';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { Posts } from '../../interfaces/IAllPosts';
+import { Post } from '../../interfaces/IAllPosts';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SkeltonLoadingPostsComponent } from '../../components/skelton-loading-posts/skelton-loading-posts.component';
@@ -25,7 +25,7 @@ export class TimlinePageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly platID = inject(PLATFORM_ID);
   allPosts = this.timelineServices.allPosts;
-  postObj!: Posts;
+  postObj!: Post;
   postLoading = this.timelineServices.isLoadingState;
 
   filterPosts = {

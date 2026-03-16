@@ -1,19 +1,20 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { MatCard, MatCardHeader } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { AddCommentComponent } from '../add-comment/add-comment.component';
-import { Comments2, Posts } from '../../interfaces/IAllPosts';
+import { Post } from '../../interfaces/IAllPosts';
 import { DatePipe } from '@angular/common';
 import { TimelineService } from '../../services/timeline.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPostsComponent } from '../add-posts/add-posts.component';
 import { STORED_KEYS } from '../../../../core/constance/Stored_Keys';
 import { ToastrService } from 'ngx-toastr';
-import { error } from 'console';
+
 import { HttpErrorResponse } from '@angular/common/http';
+import { Comment } from '../../interfaces/IAllComments';
 @Component({
   selector: 'app-card-post',
   imports: [
@@ -28,15 +29,19 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './card-post.component.css',
 })
 export class CardPostComponent {
-  private readonly timeLineServices = inject(TimelineService);
+  public readonly timeLineServices = inject(TimelineService);
   private readonly dialog = inject(MatDialog);
   private readonly toast = inject(ToastrService);
-  post = input.required<Posts>();
-  editingPost = output<Posts>();
+  post = input.required<Post>();
+  editingPost = output<Post>();
   ShowAllComments = signal<boolean>(false);
   isEdit = this.timeLineServices.edit;
-  commentObj!: Comments2;
-  editPosts(postObj: Posts) {
+  commentObj!: Comment;
+  topComment = computed(() => {
+    const comments = this.timeLineServices.AllComments().comments;
+    return comments.length ? comments[0] : null;
+  });
+  editPosts(postObj: Post) {
     // this.editingPost.emit(postObj);
     // stored in signal to share
     this.timeLineServices.editingPost.set(postObj);
@@ -70,5 +75,21 @@ export class CardPostComponent {
         });
       },
     });
+  }
+  getCommentsByPostId(postId: string) {
+    this.timeLineServices.getAllComments(postId).subscribe({
+      next: (resp) => {
+        // this.comments.emit({ comments: resp.data.comments });
+        this.timeLineServices.AllComments.set(resp.data);
+      },
+      error: (error: HttpErrorResponse) => {},
+    });
+  }
+  toggleComments(postID: string) {
+    this.ShowAllComments.set(!this.ShowAllComments());
+
+    if (this.ShowAllComments()) {
+      this.getCommentsByPostId(postID);
+    }
   }
 }

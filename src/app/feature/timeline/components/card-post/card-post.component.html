@@ -36,29 +36,37 @@ dark:border-gray-700 dark:text-gray-100">
   </header>
   <!-- showPosts -->
   <div class="">
-    <p class="my-4 px-3">{{post().body}}</p>
+    <p class="my-4 px-3 break-all">{{post().body}}</p>
     @if (post().image) {
 
     <img [src]="post().image" alt="photo-post" class="w-full  my-3 rounded-2xl">
     }
   </div>
   <!--Show comments -->
-  @if (post().comments.length>1) {
+  @if (post().commentsCount>1) {
 
-  <button (click)="ShowAllComments.set(!ShowAllComments())"
+  <button (click)="toggleComments(post()._id)"
     class="text-blue-600 font-semibold mb-3  cursor-pointer">{{ShowAllComments()?'Show Less Comments':`Show
     MoreComments`}}</button>
   }
-  @if(post().comments.length){
+  @if(post().commentsCount>0){
+  <!-- [comment]="timeLineServices.AllComments()!" -->
+  <app-comment-card [showAllComments]="ShowAllComments()" [topComment]="topComment()"
+    [postID]="post()._id"></app-comment-card>
+  }
+  <div>
+    <app-add-comment [postID]="post()._id"></app-add-comment>
+
+  </div>
+  <!-- @if(post().comments.length){
 
   <app-comment-card [comment]="post().comments" [showAllComments]="ShowAllComments()" (commentObj)="commentObj=$event"
     (comments)="post().comments=$event"></app-comment-card>
-  }
+  }  -->
+  <!-- <app-comment-card></app-comment-card> -->
 
 
   <!-- add comment -->
-  <div>
-    <app-add-comment [postID]="post()._id" (comments)="post().comments=$event"
-      [editingComment]="commentObj"></app-add-comment>
-  </div>
+  <!-- <app-add-comment [postID]="post()._id" (comments)="post().comments=$event"
+      [editingComment]="commentObj"></app-add-comment> -->
 </div>

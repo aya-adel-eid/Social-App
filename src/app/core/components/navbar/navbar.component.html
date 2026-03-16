@@ -12,8 +12,8 @@
         id="user-menu-button" aria-expanded="false" (click)="toggle()" data-dropdown-placement="bottom">
         <span class="sr-only">Open user menu</span>
 
-        @if(userInfo()?.photo){
-        <img [src]="userInfo()?.photo" class="h-15 w-15 rounded-full" alt="user photo" />
+        @if(userInfo()?.user?.photo){
+        <img [src]="userInfo()?.user?.photo" class="h-15 w-15 rounded-full" alt="user photo" />
 
         }
         @else {
@@ -22,16 +22,16 @@
         }
 
       </button>
-      @if (userInfo()?.name) {
-      <span class="block text-indigo font-bold ps-3 dark:text-white">Hi, {{userInfo()?.name}}</span>
+      @if (userInfo()?.user?.name) {
+      <span class="block text-indigo font-bold ps-3 dark:text-white">Hi, {{userInfo()?.user?.name}}</span>
       }
       <!-- Dropdown menu -->
       <div
         class="z-50  absolute -start-2 top-full mt-2 bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
         id="user-dropdown" [class.hidden]="!openMenu()">
         <div class="px-4 py-3 text-sm border-b border-default">
-          <span class="block text-heading font-medium">{{userInfo()?.name}}</span>
-          <span class="block text-body truncate">{{userInfo()?.email}}</span>
+          <span class="block text-heading font-medium">{{userInfo()?.user?.name}}</span>
+          <span class="block text-body truncate">{{userInfo()?.user?.email}}</span>
         </div>
         <ul class="p-2 text-sm text-body font-medium" aria-labelledby="user-menu-button">
           <li>

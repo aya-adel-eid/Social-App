@@ -13,7 +13,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     if (userToken) {
       req = req.clone({
         setHeaders: {
-          token: userToken,
+          Authorization: userToken,
         },
       });
     }

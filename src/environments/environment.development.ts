@@ -1,4 +1,4 @@
 export const environment = {
-  production:true,
-  baseUrl:`https://linked-posts.routemisr.com/`,
+  production: true,
+  baseUrl: `https://route-posts.routemisr.com/`,
 };

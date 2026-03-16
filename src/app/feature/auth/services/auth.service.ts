@@ -4,13 +4,14 @@ import { APP_APIS } from '../../../core/constance/app_Apis';
 import { STORED_KEYS } from '../../../core/constance/Stored_Keys';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
-import { IUserInfo, User } from '../interfaces/IUserInfo';
+import { UserData, UserProfile } from '../interfaces/UserProfile';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends BaseHttpServices {
   private readonly router = inject(Router);
-  userData = signal<User | null>(null);
+  userData = signal<UserData | null>(null);
   // register
   signUp(userData: {}) {
     return this.httpClient.post<any>(APP_APIS.AUTH.signUp, userData);
@@ -29,9 +30,9 @@ export class AuthService extends BaseHttpServices {
   }
   // get userData
   getUserData() {
-    return this.httpClient.get<IUserInfo>(APP_APIS.AUTH.userData).subscribe({
+    return this.httpClient.get<UserProfile>(APP_APIS.AUTH.userData).subscribe({
       next: (resp) => {
-        this.userData.set(resp.user);
+        this.userData.set({ user: resp.data.user });
       },
     });
   }

@@ -1,13 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { sign } from 'crypto';
-import { Comments2, IAllPosts, Posts } from '../interfaces/IAllPosts';
+
 import { BaseHttpServices } from '../../../core/services/helper/BaseHttp.service';
 import { APP_APIS } from '../../../core/constance/app_Apis';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IAllComments } from '../interfaces/IAllComments';
+import { Comment, Comments, IAllComments } from '../interfaces/IAllComments';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment.development';
 import { ToastrService } from 'ngx-toastr';
+import { IAllPosts, Post, TopComment } from '../interfaces/IAllPosts';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,14 @@ import { ToastrService } from 'ngx-toastr';
 export class TimelineService extends BaseHttpServices {
   private readonly dialog = inject(MatDialog);
   private readonly toast = inject(ToastrService);
-  allPosts = signal<Posts[]>([]);
+  allPosts = signal<Post[]>([]);
   editID = signal<string>('');
-  postUser = signal<Posts[]>([]);
-  AllComments = signal<Comments2[]>([]);
+  postUser = signal<Post[]>([]);
+  // comments
+  AllComments = signal<Comments>({ comments: [] });
+  editingComment = signal<Comment | TopComment | null>(null);
   isLoadingState = signal<boolean>(false);
-  editingPost = signal<Posts | null>(null);
+  editingPost = signal<Post | null>(null);
   edit = signal<boolean>(false);
   // posts
   getAllPosts(filter: {}) {
@@ -33,7 +36,7 @@ export class TimelineService extends BaseHttpServices {
       .subscribe({
         next: (resp) => {
           this.isLoadingState.set(false);
-          this.allPosts.update((value) => [...value, ...resp.posts]);
+          this.allPosts.update((value) => [...value, ...resp.data.posts]);
         },
       });
   }
@@ -49,7 +52,7 @@ export class TimelineService extends BaseHttpServices {
         next: (resp) => {
           this.isLoadingState.set(false);
 
-          this.allPosts.set(resp.posts);
+          this.allPosts.set(resp.data.posts);
         },
       });
   }
@@ -82,12 +85,18 @@ export class TimelineService extends BaseHttpServices {
     return this.httpClient.put<any>(`${APP_APIS.POSTS.posts}/${postId}`, postUpdate);
   }
   // comments
-  addComment(commentData: {}) {
-    return this.httpClient.post<IAllComments>(APP_APIS.Comments.comment, commentData);
+  addComment(commentData: {}, postID: string) {
+    return this.httpClient.post<IAllComments>(
+      `${APP_APIS.POSTS.posts}/${postID}/comments`,
+      commentData,
+    );
   }
   // edit comment
-  editComment(idComment: string, newContent: {}) {
-    return this.httpClient.put<Comments2>(`${APP_APIS.Comments.comment}/${idComment}`, newContent);
+  editComment(idComment: string, newContent: {}, postID: string) {
+    return this.httpClient.put<Comment>(
+      `${APP_APIS.POSTS.posts}/${postID}/comments/${idComment}`,
+      newContent,
+    );
   }
   // get Comments by post Id
   getAllComments(postID: string) {
@@ -97,13 +106,13 @@ export class TimelineService extends BaseHttpServices {
   getPostsUser(userID: string) {
     return this.httpClient.get<IAllPosts>(`${environment.baseUrl}users/${userID}/posts`).subscribe({
       next: (resp) => {
-        this.postUser.set(resp.posts);
+        this.postUser.set(resp.data.posts);
       },
       error: (error: HttpErrorResponse) => {},
     });
   }
   // delete comment
-  deleteComment(commentID: string) {
-    return this.httpClient.delete(`${APP_APIS.Comments.comment}/${commentID}`);
+  deleteComment(commentID: string, postID: string) {
+    return this.httpClient.delete(`${APP_APIS.POSTS.posts}/${postID}/comments/${commentID}`);
   }
 }
