@@ -4,15 +4,21 @@ dark:border-gray-700 dark:text-gray-100">
     <div class="flex justify-between w-full items-center">
       <!-- user -->
       <div class="flex gap-4 items-center">
-        @if (post().user.photo) {
+        <a [routerLink]="['/userProfile',post().user._id]">
+          @if (post().user.photo) {
 
-        <img [src]="post().user.photo" alt="userPhoto" class="w-15 h-15 rounded-full">
-        }
-        @else{
-        <img src="/images/profile.png" class="w-15" alt="userProfile">
-        }
+          <img [src]="post().user.photo" alt="userPhoto" class="w-15 h-15 rounded-full">
+          }
+          @else{
+          <img src="/images/profile.png" class="w-15" alt="userProfile">
+          }
+
+        </a>
         <div>
-          <h2 class="text-lg font-bold">{{post().user.name}}</h2>
+          <a [routerLink]="['/userProfile',post().user._id]">
+
+            <h2 class="text-lg font-bold">{{post().user.name}}</h2>
+          </a>
           <time datetime="12-12-2025">{{post().createdAt|date:'medium'}}</time>
         </div>
       </div>
@@ -30,6 +36,10 @@ dark:border-gray-700 dark:text-gray-100">
             <mat-icon>delete</mat-icon>
             <span>Remove</span>
           </button>
+          <button mat-menu-item (click)="savePost(post()._id)">
+            <mat-icon>bookmark_border</mat-icon>
+            <span>{{post().bookmarked?'Saved':'Save'}}</span>
+          </button>
         </mat-menu>
       </div>
     </div>
@@ -42,22 +52,57 @@ dark:border-gray-700 dark:text-gray-100">
     <img [src]="post().image" alt="photo-post" class="w-full  my-3 rounded-2xl">
     }
   </div>
+  <footer>
+    <div class="flex justify-between">
+      <button class="flex space-x-1.5 cursor-pointer hover:underline " (click)="showUserLikes(post()._id)">
+        <span class="w-6 h-6 rounded-full bg-blue-500 flex justify-center items-center"><i
+            class="fa-solid fa-sm fa-thumbs-up text-white"></i>
+        </span>
+        <span>{{post().likesCount}}</span>
+      </button>
+      <div class="space-x-2">
+        <button class="space-x-0.5 cursor-pointer hover:underline text-gray-600 text-[12px]">
+          <span>{{post().sharesCount}}</span>
+          <span>Shares</span>
+        </button>
+        <button class="space-x-0.5 cursor-pointer hover:underline text-gray-600 text-[12px]">
+          <span>{{post().commentsCount}}</span>
+          <span>Comments</span>
+        </button>
+        <button class="space-x-0.5 hover:underline text-blue-600  text-[12px] cursor-pointer">
+
+          <span>View Details</span>
+        </button>
+      </div>
+
+    </div>
+    <div class="flex justify-between px-9 border-t border-gray-200 mt-3 py-2">
+      <button class="text-xl  cursor-pointer" (click)="likePost(post()._id)">
+        <span><i class="fa-solid fa-sm fa-thumbs-up text-gray-700" [class.text-blue-500]="isLike()"
+            [class.text-gray-700]="isLike()!"></i></span>
+      </button>
+      <button class="text-xl  cursor-pointer" (click)="toggleComments(post()._id)"><i
+          class="fa-regular fa-message text-gray-700"></i></button>
+      <button class="text-xl cursor-pointer" (click)="sharePost(post())"><i
+          class="fa-solid fa-share text-gray-700"></i></button>
+    </div>
+  </footer>
   <!--Show comments -->
-  @if (post().commentsCount>1) {
+  <!-- @if (post().commentsCount>1) {
 
   <button (click)="toggleComments(post()._id)"
     class="text-blue-600 font-semibold mb-3  cursor-pointer">{{ShowAllComments()?'Show Less Comments':`Show
     MoreComments`}}</button>
-  }
-  @if(post().commentsCount>0){
+  } -->
+  @if(ShowAllComments()){
   <!-- [comment]="timeLineServices.AllComments()!" -->
   <app-comment-card [showAllComments]="ShowAllComments()" [topComment]="topComment()"
     [postID]="post()._id"></app-comment-card>
-  }
   <div>
     <app-add-comment [postID]="post()._id"></app-add-comment>
 
   </div>
+  }
   <!-- @if(post().comments.length){
 
   <app-comment-card [comment]="post().comments" [showAllComments]="ShowAllComments()" (commentObj)="commentObj=$event"

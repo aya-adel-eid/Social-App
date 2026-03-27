@@ -1,0 +1,27 @@
+<div class="flex justify-center">
+
+  <div class="w-5/8 md:w-1/2  bg-gray-200  shadow-2xl border border-gray-200 fixed bottom-3  rounded-3xl">
+    <ul class="flex justify-between items-center py-3 px-4 text-gray-600">
+      @for(obj of navArr();track $index){
+      <li> <a [routerLink]="obj.route" class="space-x-1" routerLinkActive="text-blue-500">
+          @if (obj.name === 'Notifications') {
+          <span class="relative">
+            <i [class]="obj.icon"></i>
+            @if (unreadCount() > 0) {
+            <span
+              class="absolute -top-2 -right-2 w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full flex items-center justify-center">
+              {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+            </span>
+            }
+
+          </span>
+          } @else {
+          <span><i [class]="obj.icon"></i></span>
+          }
+          <span class="hidden lg:inline">{{obj.name}}</span>
+        </a></li>
+      }
+
+    </ul>
+  </div>
+</div>

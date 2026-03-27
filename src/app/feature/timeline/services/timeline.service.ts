@@ -4,11 +4,15 @@ import { sign } from 'crypto';
 import { BaseHttpServices } from '../../../core/services/helper/BaseHttp.service';
 import { APP_APIS } from '../../../core/constance/app_Apis';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Comment, Comments, IAllComments } from '../interfaces/IAllComments';
+import { Comment, Comments, CommentsLikeData, IAllComments } from '../interfaces/IAllComments';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment.development';
 import { ToastrService } from 'ngx-toastr';
 import { IAllPosts, Post, TopComment } from '../interfaces/IAllPosts';
+import { IAllLikes, Like } from '../interfaces/IAllLikesPost';
+import { SharePost } from '../interfaces/SharePost';
+import { ISavePost } from '../interfaces/ISavePost';
+import { LikedCommentsData } from '../interfaces/LikedComment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +23,11 @@ export class TimelineService extends BaseHttpServices {
   allPosts = signal<Post[]>([]);
   editID = signal<string>('');
   postUser = signal<Post[]>([]);
+  allPostLikes = signal<Like[]>([]);
+  postShared = signal<Post | null>(null);
+  loading = signal<boolean>(true);
   // comments
+  isLoadingComments = signal(true);
   AllComments = signal<Comments>({ comments: [] });
   editingComment = signal<Comment | TopComment | null>(null);
   isLoadingState = signal<boolean>(false);
@@ -106,13 +114,34 @@ export class TimelineService extends BaseHttpServices {
   getPostsUser(userID: string) {
     return this.httpClient.get<IAllPosts>(`${environment.baseUrl}users/${userID}/posts`).subscribe({
       next: (resp) => {
-        this.postUser.set(resp.data.posts);
+        this.postUser.set(resp.data.posts!);
+        this.loading.set(false);
       },
-      error: (error: HttpErrorResponse) => {},
+      error: (error: HttpErrorResponse) => {
+        this.loading.set(false);
+      },
     });
   }
   // delete comment
   deleteComment(commentID: string, postID: string) {
     return this.httpClient.delete(`${APP_APIS.POSTS.posts}/${postID}/comments/${commentID}`);
+  }
+  //like post
+  likePost(likeId: string) {
+    return this.httpClient.put<CommentsLikeData>(`${APP_APIS.POSTS.posts}/${likeId}/like`, {});
+  }
+  getPostLikes(postId: string, page = 1, limit = 20) {
+    return this.httpClient.get<IAllLikes>(
+      `${APP_APIS.POSTS.posts}/${postId}/likes?page=${page}&limit=${limit}`,
+    );
+  }
+  sharePost(idPost: string, contentPost: {}) {
+    return this.httpClient.post<SharePost>(`${APP_APIS.POSTS.posts}/${idPost}/share`, contentPost);
+  }
+  likeComment(postID: string, commentID: string) {
+    return this.httpClient.put<LikedCommentsData>(
+      `${APP_APIS.POSTS.posts}/${postID}/comments/${commentID}/like`,
+      {},
+    );
   }
 }

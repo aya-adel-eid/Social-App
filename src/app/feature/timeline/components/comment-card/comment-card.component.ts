@@ -8,7 +8,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { MatCard, MatCardHeader } from '@angular/material/card';
+import { MatCard, MatCardHeader, MatCardFooter } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,10 +20,20 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Comment, Comments } from '../../interfaces/IAllComments';
 import { TopComment } from '../../interfaces/IAllPosts';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-comment-card',
-  imports: [MatCard, MatCardHeader, MatIconModule, MatMenuModule, MatButtonModule, DatePipe],
+  imports: [
+    MatCard,
+    MatCardHeader,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
+    DatePipe,
+    MatCardFooter,
+    RouterLink,
+  ],
   templateUrl: './comment-card.component.html',
   styleUrl: './comment-card.component.css',
 })
@@ -94,6 +104,19 @@ export class CommentCardComponent implements OnInit {
         this.timeLineServices.AllComments.set(resp.data);
       },
       error: (error: HttpErrorResponse) => {},
+    });
+  }
+  likeAndUnlike(postId: string, commentId: string) {
+    this.timeLineServices.likeComment(postId, commentId).subscribe({
+      next: (resp) => {
+        this.comment.update((data) => ({
+          ...data,
+          comments: data.comments.map((c) =>
+            c._id === commentId ? { ...c, likes: resp.data.comment.likes } : c,
+          ),
+        }));
+      },
+      error: () => {},
     });
   }
 }

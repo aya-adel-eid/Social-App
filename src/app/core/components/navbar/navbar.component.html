@@ -3,7 +3,7 @@
   <div class="sm:w-[90%]  lg:w-[85%] flex flex-wrap items-center justify-between mx-auto p-4">
     <a routerLink="/timeline" class="flex items-center space-x-3 rtl:space-x-reverse">
       <span
-        class="self-center text-2xl sm:text-3xl lg:text-4xl text-indigo-600 font-semibold whitespace-nowrap dark:text-white">Linked
+        class="self-center  sm:text-xl lg:text-2xl text-indigo-600 font-semibold whitespace-nowrap dark:text-white">Linked
         Posts</span>
     </a>
     <div class="flex relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -13,17 +13,17 @@
         <span class="sr-only">Open user menu</span>
 
         @if(userInfo()?.user?.photo){
-        <img [src]="userInfo()?.user?.photo" class="h-15 w-15 rounded-full" alt="user photo" />
+        <img [src]="userInfo()?.user?.photo" class="h-10 w-10 rounded-full" alt="user photo" />
 
         }
         @else {
-        <img src="/images/profile.png" class="h-12 w-12" alt="user photo" />
+        <img src="/images/profile.png" class="h-10 w-10" alt="user photo" />
 
         }
 
       </button>
       @if (userInfo()?.user?.name) {
-      <span class="block text-indigo font-bold ps-3 dark:text-white">Hi, {{userInfo()?.user?.name}}</span>
+      <span class="block text-indigo font-bold ps-1 dark:text-white">Hi, {{userInfo()?.user?.name}}</span>
       }
       <!-- Dropdown menu -->
       <div
@@ -35,7 +35,7 @@
         </div>
         <ul class="p-2 text-sm text-body font-medium" aria-labelledby="user-menu-button">
           <li>
-            <a routerLink="/userProfile"
+            <a [routerLink]="['/userProfile',userID()]"
               class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">UserProfile</a>
           </li>
           <li>

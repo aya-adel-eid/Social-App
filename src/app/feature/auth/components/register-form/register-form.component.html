@@ -1,74 +1,88 @@
-<form action="" [formGroup]="registerForm" (ngSubmit)="sendData()" class="mb-6 lg:w-[90%] w-full mx-auto">
-  <mat-card class=" px-2 lg:px-8 py-8 bg-gray-50  dark:text-white dark:bg-gray-800! ">
-    <mat-card-title class="">
-      <h2 class="text-center py-8 text-indigo lg:text-3xl lg:font-bold sm:font-semibold sm:xl">Register Now</h2>
-    </mat-card-title>
-    <mat-card-content>
-      <!-- name -->
-      <app-input-form [control]="registerForm.get('name')" [type]="'text'" [idInput]="'name'" [label]="'UserName'"
-        [placeholder]="'Please Enter Your Name'" formControlName="name"></app-input-form>
-      <!-- email -->
-      <app-input-form [control]="registerForm.get('email')" [type]="'email'" [idInput]="'email'" [label]="'UserEmail'"
-        [placeholder]="'Please Enter Your email'" formControlName="email"></app-input-form>
-      <!-- password -->
-      <app-input-form [control]="registerForm.get('password')" [type]="'password'" [idInput]="'password'"
-        [label]="'UserPassword'" [placeholder]="'Please Enter Your password'"
-        formControlName="password"></app-input-form>
-      <!-- rePassword -->
-      <app-input-form [control]="registerForm.get('rePassword')" [type]="'password'" [idInput]="'rePassword'"
-        [label]="'UserPassword'" [placeholder]="'Please Enter Your Password Again'" formControlName="rePassword"
-        [group]="registerForm"></app-input-form>
-      <!--select gender -->
-      <mat-form-field class="w-full mb-4">
-        <mat-label class="text-xl text-indigo">SelectGender:</mat-label>
-        <select matNativeControl formControlName="gender" class=" focus:outline-none focus:ring-0 !px-4">
-          <option value="male">male</option>
-          <option value="female">female</option>
+<form [formGroup]="registerForm" (ngSubmit)="sendData()" class="w-full mx-auto">
+
+  <!-- Title -->
+  <div class="text-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create account</h2>
+    <p class="text-sm text-gray-400 mt-1">Fill in the details to get started.</p>
+  </div>
+
+  <div class="flex flex-col gap-3 mb-4">
+
+    <app-input-form [control]="registerForm.get('name')" [type]="'text'" [idInput]="'name'" [label]="'Username'"
+      [placeholder]="'Enter your name'" formControlName="name">
+    </app-input-form>
+
+    <app-input-form [control]="registerForm.get('email')" [type]="'email'" [idInput]="'email'" [label]="'Email'"
+      [placeholder]="'Enter your email'" formControlName="email">
+    </app-input-form>
+
+    <app-input-form [control]="registerForm.get('password')" [type]="'password'" [idInput]="'password'"
+      [label]="'Password'" [placeholder]="'Enter your password'" formControlName="password">
+    </app-input-form>
+
+    <app-input-form [control]="registerForm.get('rePassword')" [type]="'password'" [idInput]="'rePassword'"
+      [label]="'Confirm password'" [placeholder]="'Re-enter your password'" formControlName="rePassword"
+      [group]="registerForm">
+    </app-input-form>
+
+    <!-- Gender & Date in grid -->
+    <div class="grid grid-cols-2 gap-3">
+
+      <div>
+        <label class="text-xs font-medium text-gray-500 block mb-1.5">Gender</label>
+        <select formControlName="gender"
+          class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
         </select>
-        @if (registerForm.get('gender')?.touched&&registerForm.get('gender')?.hasError('required')) {
-        <mat-error class="text-xl">Gender is required</mat-error>
+        @if (registerForm.get('gender')?.touched && registerForm.get('gender')?.hasError('required')) {
+        <p class="text-red-500 text-xs mt-1">Gender is required</p>
         }
-      </mat-form-field>
-      <!-- det DateBirth -->
-      <mat-form-field class="w-full">
-        <mat-label class="text-xl text-indigo">Choose a dateOfBirth</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker">
-          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        @if (registerForm.get('dateOfBirth')?.touched&&registerForm.get('dateOfBirth')?.hasError('required')) {
-        <mat-error>Gender is required</mat-error>
+      </div>
+
+      <div>
+        <label class="text-xs font-medium text-gray-500 block mb-1.5">Date of birth</label>
+        <input type="date" formControlName="dateOfBirth"
+          class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @if (registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.hasError('required')) {
+        <p class="text-red-500 text-xs mt-1">Date is required</p>
         }
-      </mat-form-field>
-      @if (successMessage) {
-      <div class="p-4 mb-4 text-sm text-fg-success-strong rounded-base bg-success-soft my-4" role="alert">
-        <span class="font-medium">{{successMessage }}!</span>.
       </div>
 
-      }
-      @if (errorMessage) {
-      <div class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
-        <span class="font-medium sm:text-xl lg:text-2xl">{{errorMessage}}!</span> Change a few things up and try
-        submitting again.
-      </div>
-      }
-      <div class="my-3">
-        <button matButton="filled" class="w-full" [disabled]="isLoading()">SignUp
-          @if (isLoading()) {
+    </div>
+  </div>
 
-          <i class="fas fa-spinner fa-spin"></i>
-          }
-        </button>
-      </div>
+  <!-- Success -->
+  @if (successMessage) {
+  <div class="flex items-center gap-2 p-3 mb-4 bg-green-50 border border-green-200 rounded-lg">
+    <i class="fa-solid fa-circle-check text-green-500 text-sm flex-shrink-0"></i>
+    <span class="text-green-700 text-sm font-medium">{{ successMessage }}</span>
+  </div>
+  }
 
-      <div class="flex justify-center p-6 items-center">
-        <span class="sm:text-sm lg:text-xl">already have an account? </span>
-        <a routerLink="/login" class="text-indigo underline font-bold px-2 sm:text-xl lg:text-2xl"> LogIn Now</a>
-      </div>
+  <!-- Error -->
+  @if (errorMessage) {
+  <div class="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 rounded-lg">
+    <i class="fa-solid fa-circle-exclamation text-red-500 text-sm flex-shrink-0"></i>
+    <span class="text-red-700 text-sm font-medium">{{ errorMessage }}</span>
+  </div>
+  }
 
-    </mat-card-content>
+  <!-- Submit -->
+  <button type="submit" [disabled]="isLoading()"
+    class="w-full py-2.5 bg-blue-500 hover:bg-blue-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-lg text-sm transition-colors flex items-center justify-center gap-2">
+    @if (isLoading()) {
+    <i class="fas fa-spinner fa-spin"></i>
+    }
+    {{ isLoading() ? 'Creating account...' : 'Sign Up' }}
+  </button>
 
-  </mat-card>
+  <p class="text-center text-sm text-gray-400 mt-5">
+    Already have an account?
+    <a routerLink="login" class="text-blue-500 font-semibold hover:underline ml-1 cursor-pointer">
+      Log in now
+    </a>
+  </p>
+
 </form>

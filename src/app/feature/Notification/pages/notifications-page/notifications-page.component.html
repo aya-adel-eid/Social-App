@@ -1,0 +1,36 @@
+<div class="bg-white px-5 py-6 rounded-2xl mx-4">
+  <h2 class="font-bold text-xl">Notifications</h2>
+  <div class="flex justify-between items-center py-2 ">
+    <div class="space-x-2.5">
+      <button matButton="filled">All</button>
+      <button matButton="filled">UnRead <span>{{notificationsServices.countUnRead()}}</span></button>
+
+    </div>
+    <div>
+      <button matButton="filled" (click)="markAllAsRead()">Mark all as read</button>
+    </div>
+  </div>
+  @if (isLoading()) {
+  @for (i of [1,2,3,4,5]; track i) {
+  <!-- skeleton -->
+  <div class="flex items-center justify-between px-3 py-2 mt-3 rounded-lg border border-gray-100 dark:border-gray-700">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse flex-shrink-0"></div>
+      <div class="flex flex-col gap-1.5">
+        <div class="h-3 w-24 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+        <div class="h-2.5 w-16 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+      </div>
+    </div>
+    <div class="w-2 h-2 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+  </div>
+  }
+  }
+  @else {
+  @for (notification of allNotifications(); track notification._id) {
+
+  <app-card-notification [notification]="notification"
+    (notificationRead)="onNotificationRead($event)"></app-card-notification>
+  }
+
+  }
+</div>

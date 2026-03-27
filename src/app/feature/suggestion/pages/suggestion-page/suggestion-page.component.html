@@ -1,0 +1,17 @@
+<aside class="flex flex-col gap-3 w-full ">
+
+  <!-- People you may know -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4">
+    <p class="font-medium text-sm text-gray-900 dark:text-gray-100 mb-4">People you may know</p>
+
+    <div class="flex flex-col gap-3">
+      @for (user of allFollowers(); track user._id) {
+      <app-suggestion-card [user]="user"></app-suggestion-card>
+      }
+    </div>
+    <button (click)="loadMoreSuggestions()"
+      class="w-full mt-4 cusrosr-pointer py-2 text-xs text-gray-400 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+      See all suggestions
+    </button>
+  </div>
+</aside>

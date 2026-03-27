@@ -1,0 +1,73 @@
+<div class="max-w-2xl mx-auto px-4 py-6">
+
+  <!-- Header -->
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-9 h-9 rounded-full bg-amber-50 flex items-center justify-center">
+      <i class="fa-solid fa-bookmark text-amber-500"></i>
+    </div>
+    <h2 class="font-semibold text-gray-900 dark:text-gray-100">Saved Posts</h2>
+  </div>
+
+  <!-- Posts -->
+  @if (isLoading()) {
+  <app-skelton-loading-posts />
+  } @else if (allSavedPosts().length === 0) {
+  <div class="flex flex-col items-center py-16 text-center">
+    <i class="fa-regular fa-bookmark text-4xl text-gray-300 mb-3"></i>
+    <p class="font-medium text-gray-500">No saved posts yet</p>
+    <p class="text-sm text-gray-400">Save posts to read them later</p>
+  </div>
+  } @else {
+  @for (post of allSavedPosts(); track post._id) {
+  @if (post.isShare) {
+  <div class="rounded-2xl  bg-white my-3 p-4 lg:p-6  sm:mx-2 dark:bg-gray-800
+dark:border-gray-700 dark:text-gray-100">
+    <header>
+      <div class="flex justify-between w-full items-center">
+        <!-- user -->
+        <div class="flex gap-4 items-center">
+          @if (post.user.photo) {
+
+          <img [src]="post.user.photo" alt="userPhoto" class="w-15 h-15 rounded-full">
+          }
+          @else{
+          <img src="/images/profile.png" class="w-15" alt="userProfile">
+          }
+          <div>
+            <h2 class="text-lg font-bold">{{post.user.name}}</h2>
+            <time datetime="12-12-2025">{{post.createdAt|date:'medium'}}</time>
+          </div>
+        </div>
+        <!-- menu -->
+        <div>
+          <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editPosts(post)">
+              <mat-icon>edit</mat-icon>
+              <span>Update</span>
+            </button>
+            <button mat-menu-item (click)="deletePost(post._id)">
+              <mat-icon>delete</mat-icon>
+              <span>Remove</span>
+            </button>
+            <button mat-menu-item (click)="savePost(post._id)">
+              <mat-icon>bookmark_border</mat-icon>
+              <span>{{post.bookmarked?'Saved':'Save'}}</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </header>
+    <app-card-post-share [postShare]="post"></app-card-post-share>
+  </div>
+  }
+  @else {
+
+  <app-card-post [post]="post"></app-card-post>
+  }
+  }
+  }
+
+</div>

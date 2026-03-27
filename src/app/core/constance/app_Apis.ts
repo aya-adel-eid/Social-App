@@ -7,6 +7,7 @@ export const APP_APIS = {
     changePassword: `${environment.baseUrl}users/change-password`,
     userData: `${environment.baseUrl}users/profile-data`,
     changePhotoProfile: `${environment.baseUrl}users/upload-photo`,
+    users: `${environment.baseUrl}users`,
   },
   POSTS: {
     posts: `${environment.baseUrl}posts`,

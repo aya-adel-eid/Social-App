@@ -6,6 +6,8 @@
 
     <!-- Top Section -->
     <div class="bg-linear-to-r from-blue-500 to-blue-700 h-32 relative dark:from-slate-800 dark:to-slate-900">
+      @if (userData().data.user._id===id()) {
+
       <div
         class="absolute -bottom-10 left-1/2 -translate-x-1/2  rounded-full flex items-center justify-center shadow-lg">
 
@@ -19,7 +21,7 @@
           }
           @else {
 
-          <img [src]="userData().user.photo" alt="user photo" class="w-28 h-28 rounded-full">
+          <img [src]="userData().data.user.photo" alt="user photo" class="w-28 h-28 rounded-full">
 
           <div class=" absolute -top-1 -end-1 z-50">
 
@@ -33,37 +35,119 @@
 
         </div>
       </div>
+      }
+      @else {
+
+      <div
+        class="absolute -bottom-10 left-1/2 -translate-x-1/2  rounded-full flex items-center justify-center shadow-lg">
+
+
+        <div class="relative border-4 border-white rounded-full dark:border-slate-700">
+
+
+          <img [src]="userData().data.user.photo" alt="user photo" class="w-28 h-28 rounded-full">
+
+
+
+        </div>
+      </div>
+      }
     </div>
+
 
     <!-- Content -->
     <div class="pt-16 pb-8 px-8 text-center">
       <h2 class="text-2xl font-semibold capitalize">
-        {{ userData().user.name }}
+        {{ userData().data.user.name }}
       </h2>
 
       <span class="inline-block mt-2 px-4 py-1 rounded-full text-sm text-indigo">
-        {{userData().user.email }}
+        {{userData().data.user.email }}
       </span>
+      @if (userData().data.user._id!==id()) {
 
+      <div class="mt-2">
+        <button matButton="filled" class="text-white " (click)="followAndUNfollow(userData().data.user._id)">
+          @if(isLoad()){
+          loading...
+          }
+          @else {
+          @if(isFollow()){
+          <i class="fa-solid fa-user-check"></i>
+          <span class="ps-2">Following</span>
+          }
+          @else {
+
+          <i class="fa-solid fa-user-plus"></i><span class="ps-2">Follow</span>
+          }
+
+          }
+        </button>
+      </div>
+      }
       <!-- Divider -->
       <div class="my-6 border-t"></div>
+      <div class="grid grid-cols-3 gap-3 my-4">
 
+        <div
+          class="flex  items-center justify-center gap-2 py-2  px-2 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-100 hover:duration-500 hover:bg-brand-medium hover:translate-y-1.5 dark:bg-gray-800">
+          <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+            <i class="fa-solid fa-user-group text-blue-500 text-base"></i>
+          </div>
+          <div>
+
+
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ userData().data.user.followingCount }}
+            </h3>
+            <span class="text-xs text-gray-400 tracking-wide">Following</span>
+          </div>
+        </div>
+
+
+        <div
+          class="flex  items-center justify-center gap-2 py-2 px-2 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-100 hover:duration-500 hover:bg-brand-medium hover:translate-y-1.5 dark:bg-gray-800">
+          <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+            <i class="fa-solid fa-users text-green-500 text-base"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ userData().data.user.followersCount }}
+          </h3>
+          <span class="text-xs text-gray-400 tracking-wide">Followers</span>
+        </div>
+        <div
+          class="flex  items-center justify-center gap-2 py-2 px-2 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-100 hover:duration-500 hover:bg-brand-medium hover:translate-y-1.5 dark:bg-gray-800">
+          <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
+            <i class="fa-regular fa-bookmark text-yellow-500"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ userData().data.user.bookmarksCount}}
+          </h3>
+          <span class="text-xs text-gray-400 tracking-wide">Saved Posts</span>
+        </div>
+        <!--
+  <div class="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
+      <i class="fa-solid fa-file-lines text-amber-500 text-base"></i>
+    </div>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ userData().user. }}</h3>
+    <span class="text-xs text-gray-400 tracking-wide">Posts</span>
+  </div> -->
+
+      </div>
       <!-- Info -->
       <div class="space-y-4 text-sm max-w-md mx-auto">
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">Email</span>
-          <span class="font-medium">{{ userData().user.email }}</span>
+          <span class="font-medium">{{ userData().data.user.email }}</span>
         </div>
 
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">dateOfBirth</span>
-          <span class="font-medium">{{ userData().user.dateOfBirth |date:'medium'}}</span>
+          <span class="font-medium">{{ userData().data.user.dateOfBirth |date:'medium'}}</span>
         </div>
 
         <div class="flex items-center justify-between">
           <span class="text-gray-400 font-bold">Gender</span>
           <span class="font-semibold ">
-            {{ userData().user.gender }}
+            {{ userData().data.user.gender }}
           </span>
         </div>
       </div>

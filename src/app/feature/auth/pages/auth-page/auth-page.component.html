@@ -1,0 +1,57 @@
+<div
+  class="w-full bg-gray-50 min-h-screen flex flex-col lg:flex-row justify-center items-center gap-12 px-6 lg:px-16 py-10">
+
+  <!-- Left -->
+  <div class="w-full hidden lg:block lg:w-1/2 max-w-sm">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
+        <i class="fa-solid fa-link text-white text-sm"></i>
+      </div>
+      <h2 class="text-blue-500 font-bold text-xl">Linked Posts</h2>
+    </div>
+
+    <p class="text-gray-500 text-sm leading-relaxed mb-5">
+      Connect with friends and the world around you on Circle.
+    </p>
+
+    <div class="flex items-start gap-3 p-3.5 bg-blue-50 border border-blue-200 rounded-xl mb-6">
+      <i class="fa-solid fa-users text-blue-500 text-sm mt-0.5 flex-shrink-0"></i>
+      <p class="text-blue-700 text-sm leading-relaxed">
+        Join 40K+ graduates in the most active social network for developers.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      @for (item of ['Share posts and connect with developers', 'Follow industry experts and mentors', 'Stay updated
+      with tech trends']; track item) {
+      <div class="flex items-center gap-3">
+        <div class="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0"></div>
+        <span class="text-gray-500 text-sm">{{ item }}</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Right -->
+  <div class="w-full lg:w-1/2 max-w-sm bg-white rounded-2xl border border-gray-100 overflow-hidden">
+
+    <!-- Tabs -->
+    <div class="flex gap-1 bg-gray-100 m-4 p-1 rounded-xl">
+      <a routerLink="login" routerLinkActive="bg-white text-blue-500 shadow-sm"
+        class="flex-1 text-center py-2 text-sm font-medium rounded-lg text-gray-400 transition-all">
+        Login
+      </a>
+      <a routerLink="register" routerLinkActive="bg-white text-blue-500 shadow-sm"
+        class="flex-1 text-center py-2 text-sm font-medium rounded-lg text-gray-400 transition-all">
+        Register
+      </a>
+    </div>
+
+    <!-- Form -->
+    <div class="px-6 pb-7">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+</div>

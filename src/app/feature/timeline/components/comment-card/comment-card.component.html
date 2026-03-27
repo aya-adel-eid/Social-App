@@ -1,77 +1,89 @@
-<div class="max-h-75 overflow-y-auto px-4 ">
+<div class="max-h-75 overflow-y-auto px-4 border-t border-t-gray-200 bg-gray-50">
   @if (showAllComments()) {
+  @if(timeLineServices.isLoadingComments()){
+  @for(i of [1,2,3];track $index){
+
+  <div class="flex items-center gap-3 my-2 px-4 py-3">
+    <!-- الصورة -->
+    <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse flex-shrink-0"></div>
+
+    <div class="flex flex-col gap-2 flex-1">
+      <!-- الاسم والتاريخ -->
+      <div class="flex gap-3">
+        <div class="h-3 w-24 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+        <div class="h-3 w-32 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+      </div>
+      <!-- نص الكومنت -->
+      <div class="h-3 w-full rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+      <div class="h-3 w-3/4 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+    </div>
+  </div>
+  }
+  }
+  @else if (comment().comments.length > 0) {
   @for (comment of comment().comments; track comment._id) {
-  <mat-card class="px-4 py-2 shadow-none! my-3 dark:bg-gray-700! dark:border-gray-600!">
-    <mat-card-header>
-      <div class="flex justify-between w-full items-center ">
-        <div class="flex items-center gap-3 my-2">
-          <img [src]="comment.commentCreator.photo" alt="userProfile" class="w-12 rounded-full">
-          <h2 class="text-sm font-semibold">{{comment.commentCreator.name}}</h2>
-          <time datetime="22/5/2025" class="text-gray-400 text-sm font-bold">{{comment.createdAt|date:'medium'}}</time>
-        </div>
-        <div>
-          <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
+  <mat-card class="shadow-none! my-2 dark:bg-gray-700! dark:border-gray-600!">
+    <div class="flex gap-3 px-3 py-2">
+
+      <!-- صورة -->
+      <a [routerLink]="['/userProfile', comment.commentCreator._id]" class="flex-shrink-0">
+        <img [src]="comment.commentCreator.photo" alt="userProfile" class="w-10 h-10 rounded-full object-cover">
+      </a>
+
+      <div class="flex-1 min-w-0">
+
+        <!-- الاسم والتاريخ والمينيو -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <a [routerLink]="['/userProfile', comment.commentCreator._id]">
+              <span class="text-sm font-semibold hover:underline">{{ comment.commentCreator.name }}</span>
+            </a>
+            <time class="text-xs text-gray-400">{{ comment.createdAt | date:'shortDate' }}</time>
+          </div>
+          <button matIconButton [matMenuTriggerFor]="menu">
+            <mat-icon class="text-sm">more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="updateComment(comment)">
               <mat-icon>edit</mat-icon>
               <span>Update</span>
             </button>
-            <button mat-menu-item (click)="deleteComment(comment._id,comment.post)">
+            <button mat-menu-item (click)="deleteComment(comment._id, comment.post)">
               <mat-icon>delete</mat-icon>
               <span>Remove</span>
             </button>
           </mat-menu>
         </div>
-      </div>
-    </mat-card-header>
-    <div class="py-2 px-6">
-      <p class="text-gray-500">{{comment.content}}</p>
-    </div>
-  </mat-card>
 
-  }
-  }
-  @else {
-  <mat-card class="px-4 py-2 shadow-none!  dark:bg-gray-700! dark:border-gray-600!">
-    <mat-card-header>
-      <div class="flex justify-between w-full items-center ">
-        <div class="flex items-center gap-3 my-2">
-          @if (topComment()?.commentCreator?.photo) {
+        <!-- نص الكومنت -->
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">
+          {{ comment.content }}
+        </p>
 
-          <img [src]="topComment()?.commentCreator?.photo" alt="userProfile" class="w-12 rounded-full">
-          }
-
-          @else{
-          <img src="/images/profile.png" class="w-15" alt="userProfile">
-
-          }
-          <h2 class="text-sm font-semibold">{{topComment()?.commentCreator?.name}}</h2>
-          <time datetime="22/5/2025"
-            class="text-gray-400 text-sm font-bold">{{topComment()?.createdAt|date:'medium'}}</time>
-        </div>
-        <div>
-          <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
+        <!-- Like -->
+        <div class="flex items-center gap-1 mt-2">
+          <button
+            class="flex items-center gap-1 text-xs text-gray-400 hover:text-blue-500 transition-colors cursor-pointer"
+            (click)="likeAndUnlike(comment.post,comment._id)">
+            <i class="fa-regular fa-thumbs-up text-xs"></i>
+            <span>likesCount({{ comment.likes.length }})</span>
           </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="updateComment(topComment()!)">
-              <mat-icon>edit</mat-icon>
-              <span>Update</span>
-            </button>
-            <button mat-menu-item (click)="deleteComment(topComment()?._id!,topComment()?.post!)">
-              <mat-icon>delete</mat-icon>
-              <span>Remove</span>
-            </button>
-          </mat-menu>
         </div>
+
       </div>
-    </mat-card-header>
-    <div class="py-2 px-6">
-      <p class="text-gray-500">{{topComment()?.content}}</p>
     </div>
   </mat-card>
   }
+  }@else if(comment().comments.length==0) {
+  <div class=" flex flex-col justify-center items-center py-7  w-full ">
+    <span class="h-10 w-10 flex justify-center items-center bg-blue-100 rounded-full"><i
+        class="fa-regular fa-comment text-blue-500 text-xl"></i></span>
+    <h3 class="text-sm lg:text-xl font-bold py-2">No comments yet.</h3>
+    <span class="text-gray-400  ">Be the first to comment.</span>
+  </div>
+  }
+
+  }
+
 
 </div>

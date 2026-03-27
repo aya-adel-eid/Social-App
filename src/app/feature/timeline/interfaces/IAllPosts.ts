@@ -19,12 +19,30 @@ export interface Pagination {
 
 export interface Data {
   posts: Post[];
+  bookmarks: BookMarks[];
 }
 export interface User {
   _id: string;
   name: string;
   username?: string;
   photo: string;
+}
+export interface BookMarks {
+  _id: string;
+  body?: string;
+  privacy: string;
+  user: User;
+  sharedPost: SharedPost | null;
+  likes: string[];
+  createdAt: string;
+  commentsCount: number;
+  topComment: TopComment | null;
+  sharesCount: number;
+  likesCount: number;
+  isShare: boolean;
+  id: string;
+  bookmarked: boolean;
+  image?: string;
 }
 
 export interface Post {

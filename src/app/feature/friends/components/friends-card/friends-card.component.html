@@ -1,0 +1,42 @@
+@if (loading()) {
+
+
+@for (i of [1,2,3,4,5]; track i) {
+<!-- skeleton -->
+<div class="flex items-center justify-between px-3 py-2 mt-3 rounded-lg border border-gray-100 dark:border-gray-700">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse flex-shrink-0"></div>
+    <div class="flex flex-col gap-1.5">
+      <div class="h-3 w-24 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+      <div class="h-2.5 w-16 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+    </div>
+  </div>
+  <div class="w-2 h-2 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+</div>
+}
+}
+@else {
+@for (friend of friends(); track friend._id) {
+<div
+  class="flex  items-center justify-between px-3 py-2 mt-3 rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+
+  <div class="flex items-center gap-3">
+    <a [routerLink]="['/userProfile',friend._id]">
+
+      <img [src]="friend.photo" alt="photo-following" class="w-9 h-9 rounded-full object-cover flex-shrink-0">
+    </a>
+    <div>
+      <a [routerLink]="['/userProfile',friend._id]">
+
+        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ friend.name }}</h3>
+        <span class="text-xs text-gray-400">@{{ friend.name }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Online indicator -->
+  <div class="w-2 h-2 rounded-full bg-green-500"></div>
+
+</div>
+}
+}

@@ -30,13 +30,33 @@ export const routes: Routes = [
       },
 
       {
-        path: 'userProfile',
+        path: 'userProfile/:id',
         loadChildren: () =>
           import('./feature/user-profile/userprofile.routes').then((c) => c.USERPROFIlE_ROUTES),
         // resolve: { userInfo: postsResolver },
         title: 'UserProfile',
       },
-
+      {
+        path: 'Friends',
+        loadComponent: () =>
+          import('./feature/friends/pages/friends-page/friends-page.component').then(
+            (c) => c.FriendsPageComponent,
+          ),
+      },
+      {
+        path: 'SavedPosts',
+        loadComponent: () =>
+          import('./feature/Saved/pages/saved-post/saved-post.component').then(
+            (c) => c.SavedPostComponent,
+          ),
+      },
+      {
+        path: 'Notifications',
+        loadComponent: () =>
+          import('./feature/Notification/pages/notifications-page/notifications-page.component').then(
+            (c) => c.NotificationsPageComponent,
+          ),
+      },
       {
         path: 'changePassword',
         loadComponent: () =>

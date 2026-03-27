@@ -4,6 +4,8 @@ import { AuthService } from '../../../feature/auth/services/auth.service';
 import { isPlatformBrowser } from '@angular/common';
 import { sign } from 'crypto';
 import { DarkService } from '../../services/dark.service';
+import { UserProfileService } from '../../../feature/user-profile/services/user-profile.service';
+import { STORED_KEYS } from '../../constance/Stored_Keys';
 
 @Component({
   selector: 'app-navbar',
@@ -16,11 +18,14 @@ export class NavbarComponent implements OnInit {
   private readonly darkServices = inject(DarkService);
   private readonly platID = inject(PLATFORM_ID);
   userInfo = this.authServices.userData;
+  private readonly userProfile = inject(UserProfileService);
+  userID = signal<string>('');
   openMenu = signal<boolean>(false);
   ngOnInit(): void {
     if (isPlatformBrowser(this.platID)) {
       this.authServices.getUserData();
       this.darkServices.SaveFinal();
+      this.userID.set(localStorage.getItem(STORED_KEYS.userId)!);
     }
   }
   logOuT() {

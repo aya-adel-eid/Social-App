@@ -1,12 +1,21 @@
 <div class="lg:w-3/5 sm:w-[90%] mx-auto px-4">
+  @if (isLoading()) {
+  <div class="h-screen w-full flex justify-center items-center">
+    <div class="loader"></div>
+
+  </div>
+  }
+  @else {
+
   <div class="mb-4">
     <app-user-info [userData]="userInfo()!"></app-user-info>
   </div>
+  }
   @if (!postsUser()) {
   <app-skelton-loading-posts></app-skelton-loading-posts>
   }
   @else {
-  @if (postsUser().length===0) {
+  @if (postsUser().length===0&&timeLineServices.loading()) {
   <div class="text-center text-2xl font-bold text-gray-400 py-8">
     No posts have been published yet.
   </div>
@@ -14,7 +23,52 @@
   @else {
 
   @for (post of postsUser(); track post._id) {
+  @if(post.sharedPost){
+
+
+  <div class="rounded-2xl  bg-white my-3 p-4 lg:p-6  sm:mx-2 dark:bg-gray-800
+dark:border-gray-700 dark:text-gray-100">
+    <header>
+      <div class="flex justify-between w-full items-center">
+        <!-- user -->
+        <div class="flex gap-4 items-center">
+          @if (post.user.photo) {
+
+          <img [src]="post.user.photo" alt="userPhoto" class="w-15 h-15 rounded-full">
+          }
+          @else{
+          <img src="/images/profile.png" class="w-15" alt="userProfile">
+          }
+          <div>
+            <h2 class="text-lg font-bold">{{post.user.name}}</h2>
+            <time datetime="12-12-2025">{{post.createdAt|date:'medium'}}</time>
+          </div>
+        </div>
+        <!-- menu -->
+        <div>
+          <button matIconButton [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editPosts(post)">
+              <mat-icon>edit</mat-icon>
+              <span>Update</span>
+            </button>
+            <button mat-menu-item (click)="deletePost(post._id)">
+              <mat-icon>delete</mat-icon>
+              <span>Remove</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </header>
+    <app-card-post-share [postShare]="post"></app-card-post-share>
+  </div>
+  }
+  @else {
+
   <app-card-post [post]="post"></app-card-post>
+  }
   }
   }
 

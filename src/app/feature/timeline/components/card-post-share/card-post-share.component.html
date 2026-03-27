@@ -1,0 +1,129 @@
+@if (postShare()) {
+@if (postShare()?.sharedPost) {
+
+<mat-card class="py-3 px-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-none! mt-3">
+
+  <!-- Header: صورة + اسم + يوزرنيم -->
+  <mat-card-header>
+    <div class="flex items-center gap-3 mb-3">
+      <a [routerLink]="['/userProfile',postShare()?.user?._id]">
+
+        <img [src]="postShare()?.sharedPost?.user?.photo" alt="userPhoto"
+          class="w-11 h-11 rounded-full object-cover flex-shrink-0">
+      </a>
+      <div>
+        <a [routerLink]="['/userProfile',postShare()?.user?._id]">
+
+          <h3 class="font-semibold text-sm leading-tight">
+            {{ postShare()?.sharedPost?.user?.name }}
+          </h3>
+          <span class="text-gray-400 text-xs">
+            @{{ postShare()?.sharedPost?.user?.username }}
+          </span>
+        </a>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- نص البوست -->
+    @if (postShare()?.sharedPost?.body) {
+    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+      {{ postShare()?.sharedPost?.body }}
+    </p>
+    }
+
+    <!-- الصورة المشتركة -->
+    @if (postShare()?.sharedPost?.image) {
+    <div class="rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+      <img [src]="postShare()?.sharedPost?.image" alt="sharedImage" class="w-full object-cover max-h-72">
+    </div>
+    }
+  </mat-card-content>
+</mat-card>
+<div class="mt-3 ">
+  <div class="flex justify-between">
+    <button class="flex space-x-1.5 cursor-pointer hover:underline " (click)="showUserLikes(postShare()?._id!)">
+      <span class="w-6 h-6 rounded-full bg-blue-500 flex justify-center items-center"><i
+          class="fa-solid fa-sm fa-thumbs-up text-white"></i>
+      </span>
+      <span>{{postShare()?.likesCount}}</span>
+    </button>
+    <div class="space-x-2">
+      <button class="space-x-0.5 cursor-pointer hover:underline text-gray-600 text-[12px]">
+        <span>{{postShare()?.sharesCount}}</span>
+        <span>Shares</span>
+      </button>
+      <button class="space-x-0.5 cursor-pointer hover:underline text-gray-600 text-[12px]">
+        <span>{{postShare()?.commentsCount}}</span>
+        <span>Comments</span>
+      </button>
+      <button class="space-x-0.5 hover:underline text-blue-600  text-[12px] cursor-pointer">
+
+        <span>View Details</span>
+      </button>
+    </div>
+
+  </div>
+  <div class="flex justify-between px-9 border-t border-gray-200 mt-3 py-2">
+    <button class="text-xl  cursor-pointer" (click)="likePost(postShare()?._id!)">
+      <span><i class="fa-solid fa-sm fa-thumbs-up text-gray-700" [class.text-blue-500]="isLike()"
+          [class.text-gray-700]="isLike()!"></i></span>
+    </button>
+    <button class="text-xl  cursor-pointer" (click)="toggleComments(postShare()?._id!)"><i
+        class="fa-regular fa-message text-gray-700"></i></button>
+    <button class="text-xl cursor-pointer"><i class="fa-solid fa-share text-gray-700"></i></button>
+  </div>
+</div>
+@if(ShowAllComments()){
+<!-- [comment]="timeLineServices.AllComments()!" -->
+<app-comment-card [showAllComments]="ShowAllComments()" [postID]="postShare()?.sharedPost?._id"></app-comment-card>
+<div>
+  <app-add-comment [postID]="postShare()?._id"></app-add-comment>
+
+</div>
+}
+}
+@else {
+<mat-card class="py-3 px-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-none!">
+
+  <!-- Header: صورة + اسم + يوزرنيم -->
+  <mat-card-header>
+    <div class="flex items-center gap-3 mb-3">
+      <a [routerLink]="['/userProfile',postShare()?.user?._id]">
+
+        <img [src]="postShare()?.user?.photo" alt="userPhoto" class="w-11 h-11 rounded-full object-cover flex-shrink-0">
+      </a>
+      <div>
+        <a [routerLink]="['/userProfile',postShare()?.user?._id]">
+
+          <h3 class="font-semibold text-sm leading-tight">
+            {{ postShare()?.user?.name }}
+          </h3>
+          <span class="text-gray-400 text-xs">
+            @{{ postShare()?.user?.username }}
+          </span>
+        </a>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- نص البوست -->
+    @if (postShare()?.body) {
+    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+      {{ postShare()?.body }}
+    </p>
+    }
+
+    <!-- الصورة المشتركة -->
+    @if (postShare()?.image) {
+    <div class="rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+      <img [src]="postShare()?.image" alt="sharedImage" class="w-full object-cover max-h-72">
+    </div>
+    }
+  </mat-card-content>
+
+</mat-card>
+}
+}

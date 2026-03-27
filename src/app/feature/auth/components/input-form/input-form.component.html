@@ -1,22 +1,23 @@
 <div class="mb-0 dark:text-white ">
-  <mat-form-field class="w-full relative ">
-    <mat-label class="text-[18px] text-indigo-700">{{label()}}</mat-label>
+  <mat-form-field class="w-full">
+    <mat-label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+      {{ label() }}
+    </mat-label>
     <input matInput [placeholder]="placeholder()" [type]="actualType()" [id]="idInput()" (blur)="onTouched()"
-      (input)="value=$event.target.value;onChange(value)" required
-      class="focus:outline-none focus:ring-0 bg-transparent " />
-    <span (click)="togglePasswordVisibility()" class="absolute top-1/2 end-4 -translate-y-1/2 cursor-pointer"
-      type="button">
-      @if(idInput()=='password'||idInput()=="rePassword"){
+      (input)="value=$event.target.value; onChange(value)" required
+      class="text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-0 bg-transparent" />
 
+    @if (idInput() === 'password' || idInput() === 'rePassword') {
+    <button matSuffix (click)="togglePasswordVisibility()" type="button"
+      class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
       @if (showPassword()) {
-      <i class="fa fa-eye"></i>
+      <i class="fa fa-eye text-sm"></i>
+      } @else {
+      <i class="fa fa-eye-slash text-sm"></i>
       }
-      @else {
-      <i class="fa fa-eye-slash"></i>
+    </button>
+    }
 
-      }
-      }
-    </span>
   </mat-form-field>
   @if(control()?.touched&&control()?.errors){
   <div
