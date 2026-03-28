@@ -63,7 +63,7 @@ export class RegisterFormComponent {
           [
             Validators.required,
             Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/,
             ),
           ],
         ],
@@ -71,7 +71,7 @@ export class RegisterFormComponent {
         dateOfBirth: [null, [Validators.required]],
         gender: [null, [Validators.required, Validators.pattern(/^(male|female)$/)]],
       },
-      { Validators: this.confirmPassword }
+      { Validators: this.confirmPassword },
     );
   }
   confirmPassword(control: AbstractControl) {
@@ -83,7 +83,12 @@ export class RegisterFormComponent {
     this.errorMessage = '';
     this.successMessage = '';
     const payload = { ...this.registerForm.value };
-    payload.dateOfBirth = payload.dateOfBirth.toISOString().split('T')[0];
+
+    if (payload.dateOfBirth) {
+      const dob = new Date(payload.dateOfBirth); // convert string to Date
+      payload.dateOfBirth = dob.toISOString().split('T')[0]; // get YYYY-MM-DD
+    }
+
     if (this.isLoading()) return;
     // if (payload.valid) {
     this.isLoading.set(true);
@@ -106,7 +111,7 @@ export class RegisterFormComponent {
       error: (err: HttpErrorResponse) => {
         this.isLoading.set(false);
 
-        this.errorMessage = err.error.error;
+        this.errorMessage = err.error.errors;
       },
     });
   }
