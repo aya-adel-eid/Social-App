@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const AUTH_ROUtES: Routes = [
   {
-    path: 'auth',
+    path: '',
     loadComponent: () =>
       import('./pages/auth-page/auth-page.component').then((c) => c.AuthPageComponent),
     children: [
