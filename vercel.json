@@ -6,7 +6,7 @@
   ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "dist/E-commerce01/**"
+      "includeFiles": "dist/social-media-app/**"
     }
   }
 }
